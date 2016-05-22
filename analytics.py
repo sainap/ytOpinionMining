@@ -1,74 +1,96 @@
-with open('rep2008.txt') as r:
-    linesrep = r.readlines()
+def getFile(fileName):
+    with open(fileName) as r:
+        return r.readlines()
 
-with open('dem2008.txt') as d:
-    linesdem = d.readlines()
+# [d, r, c+, c-, u+, u-, c- & d, c- & r, u- & d, u- & r, m-, m+]
+def getStats(lines):
+    stats = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    counter = 0
+    for line in lines:
+        if len(line) > 0:
+            counter += 1
+        if '(d)' in line:
+            stats[0] = stats[0] + 1
+        if '(r)' in line:
+            stats[1] = stats[1] + 1
+        if '(c+)' in line:
+            stats[2] = stats[2] + 1
+        if '(c-)' in line:
+            stats[3] = stats[3] + 1
+            if '(d)' in line:
+                stats[6] += 1
+            elif '(r)' in line:
+                stats[7] += 1
+        if '(u+)' in line:
+            stats[4] = stats[4] + 1   
+        if '(u-)' in line:
+            stats[5] = stats[5] + 1
+            if '(d)' in line:
+                stats[8] += 1
+            elif '(r)' in line:
+                stats[9] += 1
+        if '(m-)' in line:
+            stats[10] += 1
+        if '(m+)' in line:
+            stats[11] += 1
 
-# [d, r, c+, c-, u+, u-, c- d, c- r]
-totaldem = [0, 0, 0, 0, 0, 0]
-totalrep = [0, 0, 0, 0, 0, 0]
-
-alldem = 0
-allrep = 0
-for dline in linesdem:
-	if len(dline) > 0:
-		alldem = alldem + 1
-		if '(d)' in dline:
-			totaldem[0] = totaldem[0] + 1
-		if '(r)' in dline:
-			totaldem[1] = totaldem[1] + 1
-		if '(c+)' in dline:
-			totaldem[2] = totaldem[2] + 1
-		if '(c-)' in dline:
-			totaldem[3] = totaldem[3] + 1
-		if '(u+)' in dline:
-			totaldem[4] = totaldem[4] + 1	
-		if '(u-)' in dline:
-			totaldem[5] = totaldem[5] + 1	
-							
-
-for rline in linesrep:
-	if len(rline) > 0:
-		allrep = allrep + 1
-		if '(d)' in rline:
-			totalrep[0] = totalrep[0] + 1
-		if '(r)' in rline:
-			totalrep[1] = totalrep[1] + 1
-		if '(c+)' in rline:
-			totalrep[2] = totalrep[2] + 1
-		if '(c-)' in rline:
-			totalrep[3] = totalrep[3] + 1
-		if '(u+)' in rline:
-			totalrep[4] = totalrep[4] + 1	
-		if '(u-)' in rline:
-			totalrep[5] = totalrep[5] + 1	
+    return [x * 100 / counter for x in stats]
 
 
+# top-comment-stats = [r, d, r c-, r c+, d c-, d c+]
+# [(top comment: [array of replies]])]
+# commentstats = []
 
-totalrep[:] = [x * 100 / allrep for x in totalrep]
-totaldem[:] = [x * 100 / alldem for x in totaldem]
+def processThread(fileName):
+    # get the top comment
+    topStats = {"(r)" : [], }
+    commentthread = {}
+    lines = getFile(fileName)
+    for i in range(0, len(lines) - 1):
+        line = lines[i]
+        if len(line) > 0 and not line.startswith(' '):
+            nextLine = lines[i + 1]
+            replies = []
+            counter = i + 1
+            while nextLine.startswith('\t'):
+                replies.append(nextLine)
+                counter += 1
+                nextLine = lines[counter]
+            if len(replies) > 0:
+                commentthread[line] = replies
 
-print "alldem is " + str(alldem) + ", allrep is " + str(allrep)
-print totalrep
-print totaldem
+    return commentthread
+    for topComment in commentthread:
+        if '(r)' in topComment:
+            if '(c-)' in topComment
+                # update (r)(c-)
+            elif '(c-)' in topComment
+                # update (r)(c+)
+            else # update (r)
+
+
+        currThread = commentthread[topComment]
+        for reply in currThread:
+            if 
+                
+print processThread("dem2012.txt")
 
 
 
-# key [d, r, c+, c-, u+, u-]
+    # collect all replies and store in array
+    # process the array and update values
 
-# 2016 
-# alldem is 105, allrep is 185
-# rep : [2, 19, 15, 31, 11, 17]
-# dem : [13, 2, 19, 39, 5, 20]
 
-# 2012 
-# alldem is 138, allrep is 154
-# rep : [1, 27, 20, 23, 7, 12]
-# dem : [18, 4, 18, 42, 1, 37]
+newrep = getStats(getFile("dem2016.txt"))
 
-# 2008
-# alldem is 91, allrep is 42
-# rep : [7, 30, 9, 9, 4, 4]
-# dem : [18, 4, 24, 30, 3, 15]
+
+s =  "  dflkjlkaj"
+print s.startswith(' ')
+
+
+
+
+print type(getFile("rep2008.txt"))
+
 
 
