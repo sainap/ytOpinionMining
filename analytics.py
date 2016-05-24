@@ -41,14 +41,49 @@ def getStats(lines):
 # [(top comment: [array of replies]])]
 # commentstats = []
 
-def processThread(fileName):
-    # get the top comment
-    topStats = {"(r)" : [], }
+def processTopComment(tcomment, replies):
+    result = [0] * 12
+    for reply in replies:
+        if '(r)' in reply:
+            if '(u+)' in reply:
+                result[0] += 1
+            if '(u-)' in reply:
+                result[1] += 1
+            if '(c+)' in reply:
+                result[2] += 1
+            if '(c-)' in reply:
+                result[3] += 1
+        elif '(d)' in reply:
+            if '(u+)' in reply:
+                result[4] += 1
+            if '(u-)' in reply:
+                result[5] += 1
+            if '(c+)' in reply:
+                result[6] += 1
+            if '(c-)' in reply:
+                result[7] += 1
+        else:
+            if '(u+)' in reply:
+                result[8] += 1
+            if '(u-)' in reply:
+                result[9] += 1
+            if '(c+)' in reply:
+                result[10] += 1
+            if '(c-)' in reply:
+                result[11] += 1
+    if len(replies) != 0:
+        result[:] = [x * 100.0 / len(replies) for x in result]
+
+    return result
+
+
+def processThread(fileName, repOrDem, attr):
     commentthread = {}
     lines = getFile(fileName)
     for i in range(0, len(lines) - 1):
         line = lines[i]
-        if len(line) > 0 and not line.startswith(' '):
+        if len(line) > 0 and not line.startswith(' ') \
+            and i + 2 < len(lines):
             nextLine = lines[i + 1]
             replies = []
             counter = i + 1
@@ -58,22 +93,45 @@ def processThread(fileName):
                 nextLine = lines[counter]
             if len(replies) > 0:
                 commentthread[line] = replies
-
-    return commentthread
+    result = []
     for topComment in commentthread:
-        if '(r)' in topComment:
-            if '(c-)' in topComment
-                # update (r)(c-)
-            elif '(c-)' in topComment
-                # update (r)(c+)
-            else # update (r)
+        if repOrDem in topComment and attr in topComment:
+            result.append(processTopComment(topComment, commentthread[topComment]))
+    return result
 
 
-        currThread = commentthread[topComment]
-        for reply in currThread:
-            if 
-                
-print processThread("dem2012.txt")
+# result of processThread is array of arrays where each array is as follows
+# [(r & u+) (r & u-) (r & c+) (r & c-) (d & u+) (d & u-) (d & c+) (d & c-) (u+) (u-) (c+) (c-)]
+
+print processThread("rep2008.txt", '(r)', '(c-)')
+print processThread("rep2008.txt", '(r)', '(c+)')
+print processThread("rep2008.txt", '(d)', '(c-)')
+print processThread("rep2008.txt", '(d)', '(c+)')
+
+print processThread("dem2008.txt", '(r)', '(c-)')
+print processThread("dem2008.txt", '(r)', '(c+)')
+print processThread("dem2008.txt", '(d)', '(c-)')
+print processThread("dem2008.txt", '(d)', '(c+)')
+
+print processThread("rep2012.txt", '(r)', '(c-)')
+print processThread("rep2012.txt", '(r)', '(c+)')
+print processThread("rep2012.txt", '(d)', '(c-)')
+print processThread("rep2012.txt", '(d)', '(c+)')
+
+print processThread("dem2012.txt", '(r)', '(c-)')
+print processThread("dem2012.txt", '(r)', '(c+)')
+print processThread("dem2012.txt", '(d)', '(c-)')
+print processThread("dem2012.txt", '(d)', '(c+)')
+
+print processThread("rep2016.txt", '(r)', '(c-)')
+print processThread("rep2016.txt", '(r)', '(c+)')
+print processThread("rep2016.txt", '(d)', '(c-)')
+print processThread("rep2016.txt", '(d)', '(c+)')
+
+print processThread("dem2016.txt", '(r)', '(c-)')
+print processThread("dem2016.txt", '(r)', '(c+)')
+print processThread("dem2016.txt", '(d)', '(c-)')
+print processThread("dem2016.txt", '(d)', '(c+)')
 
 
 

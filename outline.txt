@@ -1,0 +1,37 @@
+Introduction {
+	
+	Measuring trends in opinions of youtube comments from political debates
+	within the last 8 years.
+
+	* Emphasis on differences between republican and democratic commenters.
+	* Some earlier work
+	* Just like articles, define terms, and assumptions
+
+	1. How much does each party get involved in the opposite party's video?
+
+	2. Given a comment's political position and it's nature, who respons most and how do they respond.
+}
+
+Methods {
+	
+	define symbols and measurements
+	define neglible variables
+
+	Show example of how we pulled comments (visually + reason)
+		* switch from top comments to newest to order by date
+		* scroll until comments are within one year of video publish date
+		* grab only relevent comments (ignoring any not directed at either a candidate or user)
+			(ex. Thanks for posting)
+
+		* explain algorithm and percentage weights and the dictionary
+}
+
+Results {
+	
+	
+}
+
+Conclusion {
+	
+
+}
