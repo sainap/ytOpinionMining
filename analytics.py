@@ -41,6 +41,9 @@ def getStats(lines):
 # [(top comment: [array of replies]])]
 # commentstats = []
 
+
+
+
 def processTopComment(tcomment, replies):
     result = [0] * 12
     for reply in replies:
@@ -97,11 +100,19 @@ def processThread(fileName, repOrDem, attr):
     for topComment in commentthread:
         if repOrDem in topComment and attr in topComment:
             result.append(processTopComment(topComment, commentthread[topComment]))
-    return result
+
+    concatenated = [0] * 12
+    for index in range(12):
+        total = 0
+        for item in result:
+            total += item[index]
+        if len(result) > 0:
+            concatenated[index] =  1.0 * total / len(result)
+    return concatenated
 
 
 # result of processThread is array of arrays where each array is as follows
-# [(r & u+) (r & u-) (r & c+) (r & c-) (d & u+) (d & u-) (d & c+) (d & c-) (u+) (u-) (c+) (c-)]
+# [(r u& +) (r & u-) (r & c+) (r & c-) (d & u+) (d & u-) (d & c+) (d & c-) (u+) (u-) (c+) (c-)]
 
 print processThread("rep2008.txt", '(r)', '(c-)')
 print processThread("rep2008.txt", '(r)', '(c+)')
@@ -139,16 +150,10 @@ print processThread("dem2016.txt", '(d)', '(c+)')
     # process the array and update values
 
 
-newrep = getStats(getFile("dem2016.txt"))
-
-
-s =  "  dflkjlkaj"
-print s.startswith(' ')
 
 
 
 
-print type(getFile("rep2008.txt"))
 
 
 
