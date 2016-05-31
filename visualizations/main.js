@@ -125,7 +125,7 @@
             
         mainbar.append("text").attr("class","barvalue")
             .attr("x", c2[p]).attr("y",function(d){ return d.middle+5;})
-            .text(function(d,i){ return d.value ;})
+            .text(function(d,i){ return Math.round(d.value) ;})
             .attr("text-anchor","end");
             
         mainbar.append("text").attr("class","barpercent")
@@ -161,7 +161,7 @@
             h.append("text").text(header[d]).attr("x", (c1[d]-5))
                 .attr("y", -5).style("fill","grey");
             
-            h.append("text").text("Count").attr("x", (c2[d]-10))
+            h.append("text").text("Percentage").attr("x", (c2[d]-10))
                 .attr("y", -5).style("fill","grey");
             
             h.append("line").attr("x1",c1[d]-10).attr("y1", -2)
